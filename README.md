@@ -16,10 +16,7 @@ Reading a line from a file descriptor is far too tedious.
   </tr>
   <tr>
     <td><strong>Return value</strong></td>
-    <td>
-      Read line: correct behavior
-      NULL: there is nothing else to read, or an error occurred
-    </td>
+    <td>Read line: correct behavior<br>NULL: there is nothing else to read, or an error occurred</td>
   </tr>
   <tr>
     <td><strong>External functions</strong></td>
