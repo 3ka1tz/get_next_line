@@ -3,30 +3,30 @@ Reading a line from a file descriptor is far too tedious.
 
 <table>
   <tr>
-    <td>**Function name**</td>
+    <td><strong>Function name</strong></td>
     <td>get_next_line</td>
   </tr>
   <tr>
-    <td>**Prototype**</td>
+    <td><strong>Prototype</strong></td>
     <td>char *get_next_line(int fd);</td>
   </tr>
   <tr>
-    <td>**Parameters**</td>
+    <td><strong>Parameters</strong></td>
     <td>fd: The file descriptor to read from</td>
   </tr>
   <tr>
-    <td>**Return value**</td>
+    <td><strong>Return value</strong></td>
     <td>
       Read line: correct behavior
       NULL: there is nothing else to read, or an error occurred
     </td>
   </tr>
   <tr>
-    <td>**External functions**</td>
+    <td><strong>External functions</strong></td>
     <td>read, malloc, free</td>
   </tr>
   <tr>
-    <td>**Description**</td>
+    <td><strong>Description</strong></td>
     <td>Write a function that returns a line read from a file descriptor</td>
   </tr>
 </table>
