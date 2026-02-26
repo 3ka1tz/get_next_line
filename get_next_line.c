@@ -1,27 +1,23 @@
+#include "get_next_line.h"
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <unistd.h>
 
-#include "get_next_line.h"
-
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif
-
-int	ft_check_line_jump(char *new_str)
+int	has_newline(char *s)
 {
-	if (!new_str)
+	if (!s)
 		return (0);
-	while (*new_str)
+	while (*s)
 	{
-		if (*new_str == '\n')
+		if (*s == '\n')
 			return (1);
-		new_str++;
+		s++;
 	}
 	return (0);
 }
 
-ssize_t	read_from_fd(int fd, char **buffer)
+ssize_t	read_from_fd(int fd, char **buf)
 {
 	char	*temp_buffer;
 	ssize_t	bytes_read;
@@ -37,71 +33,71 @@ ssize_t	read_from_fd(int fd, char **buffer)
 		return (-1);
 	}
 	temp_buffer[bytes_read] = '\0';
-	new_buffer = ft_strjoin(*buffer, temp_buffer);
+	new_buffer = ft_strjoin(*buf, temp_buffer);
 	free(temp_buffer);
 	if (!new_buffer)
 	{
-		free(*buffer);
-		*buffer = NULL;
+		free(*buf);
+		*buf = NULL;
 		return (-1);
 	}
-	free(*buffer);
-	*buffer = new_buffer;
+	free(*buf);
+	*buf = new_buffer;
 	return (bytes_read);
 }
 
-char	*extract_line(char **buffer)
+char	*extract_line(char **buf)
 {
 	char	*new_line_pos;
 	size_t	line_len;
 	char	*line;
 	char	*new_buffer;
 
-	if (!*buffer || **buffer == '\0')
+	if (!*buf || **buf == '\0')
 		return (NULL);
-	new_line_pos = ft_strchr(*buffer, '\n');
+	new_line_pos = ft_strchr(*buf, '\n');
 	if (new_line_pos)
-		line_len = (new_line_pos - *buffer) + 1;
+		line_len = (new_line_pos - *buf) + 1;
 	else
-		line_len = (ft_strlen(*buffer));
+		line_len = (ft_strlen(*buf));
 	line = malloc(line_len + 1);
 	if (!line)
 		return (NULL);
-	ft_strlcpy(line, *buffer, line_len + 1);
+	ft_strlcpy(line, *buf, line_len + 1);
 	if (new_line_pos)
 		new_buffer = ft_strdup(new_line_pos + 1);
 	else
 		new_buffer = NULL;
-	free(*buffer);
-	*buffer = new_buffer;
+	free(*buf);
+	*buf = new_buffer;
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buf;
 	ssize_t		bytes_read;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (!ft_check_line_jump(buffer))
+	while (!has_newline(buf))
 	{
-		bytes_read = read_from_fd(fd, &buffer);
+		bytes_read = read_from_fd(fd, &buf);
 		if (bytes_read < 0)
 		{
-			free(buffer);
-			buffer = NULL;
+			free(buf);
+			buf = NULL;
 			return (NULL);
 		}
 		if (bytes_read == 0)
 			break ;
 	}
-	line = extract_line(&buffer);
-	if (!line && buffer)
+	line = extract_line(&buf);
+	if (!line && buf)
 	{
-		free(buffer);
-		buffer = NULL;
+		free(buf);
+		buf = NULL;
 	}
 	return (line);
 }
