@@ -1,28 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: elopez-u <elopez-u@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 11:35:29 by elopez-u          #+#    #+#             */
-/*   Updated: 2024/10/18 11:20:13 by elopez-u         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
-
 #include "get_next_line_bonus.h"
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif
-
-#ifndef MAX_FD
-# define MAX_FD 42
-#endif
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
 
 int	ft_check_line_jump(char *new_str)
 {
@@ -120,43 +100,3 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
-
-// Reading from multiple files
-/*int	main(void)
-{
-	int		fd1;
-	int		fd2;
-	char	*line;
-
-	fd1 = open("test.txt", O_RDONLY);
-	fd2 = open("test2.txt", O_RDONLY);
-	if (fd1 < 0 || fd2 < 0)
-	{
-		fprintf(stderr, "Error: unable to open file descriptors\n");
-		return (1);
-	}
-	line = NULL;
-	while ((line = get_next_line(fd1)))
-	{
-		if (line)
-		{
-			printf("%s", line);
-			free(line);
-		}
-	}
-	while ((line = get_next_line(fd2)))
-	{
-		if (line)
-		{
-			printf("%s", line);
-			free(line);
-		}
-	}
-	if (close(fd1) < 0 || close(fd2) < 0)
-	{
-		fprintf(stderr, "Error: unable to close file descriptors\n");
-		return (1);
-	}
-	printf("\n");
-	return (0);
-}*/

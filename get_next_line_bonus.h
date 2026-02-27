@@ -1,17 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: elopez-u <elopez-u@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 11:35:32 by elopez-u          #+#    #+#             */
-/*   Updated: 2024/10/17 14:55:52 by elopez-u         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
+
+#ifndef MAX_FD
+# define MAX_FD 42
+#endif
 
 # include <stdlib.h>
 # include <unistd.h>

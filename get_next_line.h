@@ -1,12 +1,11 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+# ifndef BUF_SIZE
+#  define BUF_SIZE 42
 # endif
 
-# include <stdlib.h>
-# include <unistd.h>
+# include <stddef.h>
 
 // Utils
 size_t	ft_strlen(const char *s);

@@ -1,7 +1,7 @@
 #include "get_next_line.h"
 
 #include <fcntl.h>
-#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 int	has_newline(char *s)
@@ -19,21 +19,21 @@ int	has_newline(char *s)
 
 ssize_t	read_from_fd(int fd, char **buf)
 {
-	char	*temp_buffer;
 	ssize_t	bytes_read;
-	char	*new_buffer;
+	char	*tmp_buf;
+	char	*old_buf;
 
-	temp_buffer = malloc(BUFFER_SIZE + 1);
-	if (!temp_buffer)
+	tmp_buf = malloc(BUF_SIZE + 1);
+	if (!tmp_buf)
 		return (-1);
-	bytes_read = read(fd, temp_buffer, BUFFER_SIZE);
+	bytes_read = read(fd, tmp_buf, BUF_SIZE);
 	if (bytes_read < 0)
 	{
-		free(temp_buffer);
+		free(tmp_buf);
 		return (-1);
 	}
-	temp_buffer[bytes_read] = '\0';
-	new_buffer = ft_strjoin(*buf, temp_buffer);
+	tmp_buf[bytes_read] = '\0';
+	tmp_buf = ft_strjoin(*buf, tmp_buf);
 	free(temp_buffer);
 	if (!new_buffer)
 	{
@@ -79,7 +79,7 @@ char	*get_next_line(int fd)
 	ssize_t		bytes_read;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUF_SIZE <= 0)
 		return (NULL);
 	while (!has_newline(buf))
 	{
@@ -101,52 +101,3 @@ char	*get_next_line(int fd)
 	}
 	return (line);
 }
-
-// Reading from files
-/*int	main(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = open("test.txt", O_RDONLY);
-	if (fd < 0)
-	{
-		fprintf(stderr, "Error: unable to open file descriptor\n");
-		return (1);
-	}
-	line = NULL;
-	while ((line = get_next_line(fd)))
-	{
-		if (line)
-		{
-			printf("%s", line);
-			free(line);
-		}
-	}
-	if (close(fd) < 0)
-	{
-		fprintf(stderr, "Error: unable to close file descriptor\n");
-		return (1);
-	}
-	printf("\n");
-	return (0);
-}*/
-
-// Reading from stdin
-/*int	main(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = STDIN_FILENO;
-	line = NULL;
-	while ((line = get_next_line(fd)))
-	{
-		if (line)
-		{
-			printf("%s", line);
-			free(line);
-		}
-	}
-	return (0);
-}*/
