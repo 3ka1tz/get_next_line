@@ -3,23 +3,23 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static int	has_newline(char *s)
+static int	has_newline(char *buf)
 {
-	if (!s)
+	if (!buf)
 		return (0);
-	while (*s)
+	while (*buf)
 	{
-		if (*s == '\n')
+		if (*buf == '\n')
 			return (1);
-		s++;
+		buf++;
 	}
 	return (0);
 }
 
 static ssize_t	read_from_fd(int fd, char **buf)
 {
-	ssize_t	bytes_read;
 	char	*tmp_buf;
+	ssize_t	bytes_read;
 	char	*new_buf;
 
 	tmp_buf = malloc(BUF_SIZE + 1);
@@ -43,24 +43,24 @@ static ssize_t	read_from_fd(int fd, char **buf)
 
 static char	*extract_line(char **buf)
 {
-	char	*new_line_pos;
+	char	*newline_pos;
 	size_t	line_len;
 	char	*line;
 	char	*new_buffer;
 
 	if (!*buf || **buf == '\0')
 		return (NULL);
-	new_line_pos = ft_strchr(*buf, '\n');
-	if (new_line_pos)
-		line_len = (new_line_pos - *buf) + 1;
+	newline_pos = ft_strchr(*buf, '\n');
+	if (newline_pos)
+		line_len = (newline_pos - *buf) + 1;
 	else
 		line_len = (ft_strlen(*buf));
 	line = malloc(line_len + 1);
 	if (!line)
 		return (NULL);
 	ft_strlcpy(line, *buf, line_len + 1);
-	if (new_line_pos)
-		new_buffer = ft_strdup(new_line_pos + 1);
+	if (newline_pos)
+		new_buffer = ft_strdup(newline_pos + 1);
 	else
 		new_buffer = NULL;
 	free(*buf);
