@@ -1,10 +1,9 @@
 #include "get_next_line.h"
 
-#include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-int	has_newline(char *s)
+static int	has_newline(char *s)
 {
 	if (!s)
 		return (0);
@@ -17,11 +16,11 @@ int	has_newline(char *s)
 	return (0);
 }
 
-ssize_t	read_from_fd(int fd, char **buf)
+static ssize_t	read_from_fd(int fd, char **buf)
 {
 	ssize_t	bytes_read;
 	char	*tmp_buf;
-	char	*old_buf;
+	char	*new_buf;
 
 	tmp_buf = malloc(BUF_SIZE + 1);
 	if (!tmp_buf)
@@ -33,20 +32,16 @@ ssize_t	read_from_fd(int fd, char **buf)
 		return (-1);
 	}
 	tmp_buf[bytes_read] = '\0';
-	tmp_buf = ft_strjoin(*buf, tmp_buf);
-	free(temp_buffer);
-	if (!new_buffer)
-	{
-		free(*buf);
-		*buf = NULL;
+	new_buf = ft_strjoin(*buf, tmp_buf);
+	free(tmp_buf);
+	if (!new_buf)
 		return (-1);
-	}
 	free(*buf);
-	*buf = new_buffer;
+	*buf = new_buf;
 	return (bytes_read);
 }
 
-char	*extract_line(char **buf)
+static char	*extract_line(char **buf)
 {
 	char	*new_line_pos;
 	size_t	line_len;
@@ -79,7 +74,7 @@ char	*get_next_line(int fd)
 	ssize_t		bytes_read;
 	char		*line;
 
-	if (fd < 0 || BUF_SIZE <= 0)
+	if (BUF_SIZE <= 0 || fd < 0)
 		return (NULL);
 	while (!has_newline(buf))
 	{
