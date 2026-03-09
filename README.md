@@ -27,8 +27,11 @@ while (1)
 	free(line);
 }
 close(fd);
+
+// You may also check for open and close errors
 ```
 
 ## Resources
 
-You can test this repository or your own version to this project in https://github.com/Tripouille/gnlTester.
+You can test this repository or your own version to this project in:  
+https://github.com/Tripouille/gnlTester.
