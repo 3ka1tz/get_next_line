@@ -8,14 +8,14 @@ Whether it's a file, stdin, or even later a network connection, you'll always ne
 
 ## Instructions
 
-1. Clone the repository
+**1. Clone the repository**
 ```bash
 git clone https://github.com/3ka1tz/get_next_line.git
 ```
 
-2. Add a main function to the end of the get_next_line.c file
+**2. Add a main function to the end of the get_next_line.c file**
 
-**Option 1: Read from a file**
+Option 1: Read from a file
 ```c
 #include <fcntl.h>
 #include <stdio.h>
@@ -38,7 +38,7 @@ int	main(void)
 }
 ```
 
-**Option 2: Read from stdin**
+Option 2: Read from stdin
 ```c
 #include <stdio.h>
 
@@ -60,12 +60,12 @@ int	main(void)
 }
 ```
 
-3. Compile the code
+**3. Compile the code**
 ```bash
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c -o gnl
 ```
 
-4. Run the executable
+**4. Run the executable**
 ```bash
 ./gnl
 ```
