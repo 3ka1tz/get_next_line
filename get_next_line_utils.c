@@ -1,16 +1,18 @@
-#include <stdlib.h>
+#include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	gnl_strlen(char *s)
 {
 	size_t	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 		i++;
 	return (i);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*gnl_strchr(char *s, int c)
 {
 	if (!s)
 		return (NULL);
@@ -25,52 +27,31 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strdup(const char *s)
+char	*gnl_strjoin(char *s1, char *s2)
 {
-	size_t	len;
-	char	*dup;
+	char	*result;
 	size_t	i;
+	size_t	j;
 
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s);
-	dup = malloc(len + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (i < len)
+	if (!s1)
 	{
-		dup[i] = s[i];
+		s1 = malloc(1);
+		if (!s1)
+			return (NULL);
+		s1[0] = '\0';
+	}
+	result = malloc(gnl_strlen(s1) + gnl_strlen(s2) + 1);
+	if (!result)
+		return (free(s1), NULL);
+	i = 0;
+	while (s1[i])
+	{
+		result[i] = s1[i];
 		i++;
 	}
-	dup[len] = '\0';
-	return (dup);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	len1;
-	size_t	len2;
-	char	*joined;
-	size_t	i;
-
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	joined = malloc(len1 + len2 + 1);
-	if (!joined)
-		return (NULL);
-	i = 0;
-	while (i < len1)
-	{
-		joined[i] = s1[i];
-		i++;
-	}
-	i = 0;
-	while (s2[len2])
-	{
-		joined[len1 + i] = s2[i];
-		i++;
-	}
-	joined[len1 + len2] = '\0';
-	return (joined);
+	j = 0;
+	while (s2[j])
+		result[i++] = s2[j++];
+	result[i] = '\0';
+	return (free(s1), result);
 }

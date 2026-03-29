@@ -1,6 +1,6 @@
 # get_next_line
 
-This project has been created as part of the 42 curriculum by [elopez-u](https://profile.intra.42.fr/users/elopez-u).
+This project has been created as part of the 42 curriculum by elopez-u.
 
 ## Description
 
@@ -15,8 +15,11 @@ git clone https://github.com/3ka1tz/get_next_line.git
 
 2. Add a main function to the end of the get_next_line.c file
 
-Option 1: Read from a file
+**Option 1: Read from a file**
 ```c
+#include <fcntl.h>
+#include <stdio.h>
+
 int	main(void)
 {
 	int		fd;
@@ -35,8 +38,10 @@ int	main(void)
 }
 ```
 
-Option 2: Read from stdin
+**Option 2: Read from stdin**
 ```c
+#include <stdio.h>
+
 int	main(void)
 {
 	int		fd;

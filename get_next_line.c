@@ -1,98 +1,109 @@
 #include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
 
-#include <stdlib.h>
-#include <unistd.h>
-
-static int	has_newline(char *buf)
+static char	*extract_line(char *stash)
 {
-	if (!buf)
-		return (0);
-	while (*buf)
-	{
-		if (*buf == '\n')
-			return (1);
-		buf++;
-	}
-	return (0);
-}
-
-static ssize_t	read_from_fd(int fd, char **buf)
-{
-	char	*tmp_buf;
-	ssize_t	bytes_read;
-	char	*new_buf;
-
-	tmp_buf = malloc(BUF_SIZE + 1);
-	if (!tmp_buf)
-		return (-1);
-	bytes_read = read(fd, tmp_buf, BUF_SIZE);
-	if (bytes_read < 0)
-	{
-		free(tmp_buf);
-		return (-1);
-	}
-	tmp_buf[bytes_read] = '\0';
-	new_buf = ft_strjoin(*buf, tmp_buf);
-	free(tmp_buf);
-	if (!new_buf)
-		return (-1);
-	free(*buf);
-	*buf = new_buf;
-	return (bytes_read);
-}
-
-static char	*extract_line(char **buf)
-{
-	char	*newline_pos;
-	size_t	line_len;
 	char	*line;
-	char	*new_buffer;
+	size_t	i;
 
-	if (!*buf || **buf == '\0')
+	if (!stash[0])
 		return (NULL);
-	newline_pos = ft_strchr(*buf, '\n');
-	if (newline_pos)
-		line_len = (newline_pos - *buf) + 1;
-	else
-		line_len = (ft_strlen(*buf));
-	line = malloc(line_len + 1);
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
+		i++;
+	line = malloc(i + (stash[i] == '\n') + 1);
 	if (!line)
 		return (NULL);
-	ft_strlcpy(line, *buf, line_len + 1);
-	if (newline_pos)
-		new_buffer = ft_strdup(newline_pos + 1);
-	else
-		new_buffer = NULL;
-	free(*buf);
-	*buf = new_buffer;
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
+	{
+		line[i] = stash[i];
+		i++;
+	}
+	if (stash[i] == '\n')
+	{
+		line[i] = '\n';
+		i++;
+	}
+	line[i] = '\0';
 	return (line);
+}
+
+static char	*save_remainder(char *stash)
+{
+	char	*new;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
+		i++;
+	if (!stash[i])
+		return (free(stash), NULL);
+	new = malloc(gnl_strlen(stash) - i);
+	if (!new)
+		return (free(stash), NULL);
+	i++;
+	j = 0;
+	while (stash[i])
+		new[j++] = stash[i++];
+	new[j++] = '\0';
+	free(stash);
+	return (new);
+}
+
+static char	*read_and_store(int fd, char *stash)
+{
+	char	*buf;
+	int		bytes;
+
+	buf = malloc(BUFFER_SIZE + 1);
+	if (!buf)
+		return (NULL);
+	bytes = 1;
+	while (!gnl_strchr(stash, '\n') && bytes > 0)
+	{
+		bytes = read(fd, buf, BUFFER_SIZE);
+		if (bytes < 0)
+			return (free(buf), NULL);
+		buf[bytes] = '\0';
+		stash = gnl_strjoin(stash, buf);
+		if (!stash)
+			return (free(buf), NULL);
+	}
+	free(buf);
+	return (stash);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buf;
-	ssize_t		bytes_read;
+	static char	*stash;
 	char		*line;
 
-	if (BUF_SIZE <= 0 || fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (!has_newline(buf))
-	{
-		bytes_read = read_from_fd(fd, &buf);
-		if (bytes_read < 0)
-		{
-			free(buf);
-			buf = NULL;
-			return (NULL);
-		}
-		if (bytes_read == 0)
-			break ;
-	}
-	line = extract_line(&buf);
-	if (!line && buf)
-	{
-		free(buf);
-		buf = NULL;
-	}
+	stash = read_and_store(fd, stash);
+	if (!stash)
+		return (NULL);
+	line = extract_line(stash);
+	stash = save_remainder(stash);
 	return (line);
+}
+
+int	main(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("input.txt", O_RDONLY);
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		printf("%s", line);
+		free(line);
+	}
+	close(fd);
 }
