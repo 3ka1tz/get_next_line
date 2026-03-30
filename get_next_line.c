@@ -1,6 +1,4 @@
 #include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
 
 static char	*extract_line(char *stash)
 {
@@ -89,21 +87,4 @@ char	*get_next_line(int fd)
 	line = extract_line(stash);
 	stash = save_remainder(stash);
 	return (line);
-}
-
-int	main(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = open("input.txt", O_RDONLY);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		printf("%s", line);
-		free(line);
-	}
-	close(fd);
 }
