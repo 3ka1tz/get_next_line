@@ -1,6 +1,6 @@
 # get_next_line
 
-This project has been created as part of the 42 curriculum by elopez-u.
+This project has been created as part of the 42 curriculum by [elopez-u](https://profile.intra.42.fr/users/elopez-u).
 
 ## Description
 
@@ -103,17 +103,14 @@ World
 Ctrl + D
 ```
 
-These are just some example use cases. The real use of get_next_line is to use it for future bigger projects.
+These are just some example use cases.
 
 To use get_next_line in another project:
-- Add get_next_line.c, get_next_line_utils.c and get_next_line.h to your project folder
-- Include it with: #include "get_next_line.h"
+- Add the 3 get_next_line files into your project folder
+- Add `#include "get_next_line.h"` to every file where it will be used
 - Add the .c files to your Makefile
-
-If you want to use get_next_line in another project, just add these files and add #include "~/get_next_line.h" and .c files to Makefile.
 
 ## Resources
 
-This tester can be very useful in order to test your get_next_line correctness before uploading it to the intra.
-
+This tester can be very useful in order to test your get_next_line correctness before uploading it to the intra:
 https://github.com/Tripouille/gnlTester
