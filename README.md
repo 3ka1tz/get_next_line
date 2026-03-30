@@ -71,7 +71,7 @@ These are just some main function examples.
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c -o gnl
 ```
 
-If you omit `-D BUFFER_SIZE=42`, the value defined in get_next_line.h will be used.
+If you omit `-D BUFFER_SIZE=42`, the value defined in `get_next_line.h` will be used.
 
 ### 4. Run the executable
 
@@ -91,7 +91,7 @@ Hello
 Hello
 World
 World
-Ctrl + D
+Ctrl + D # Sends EOF (end of input)
 ```
 
 ##### Option 2.2: Redirect output to a file
@@ -100,7 +100,7 @@ Ctrl + D
 ./gnl > <output_file>
 Hello
 World
-Ctrl + D
+Ctrl + D # Sends EOF (end of input)
 ```
 
 These are just some example use cases.
